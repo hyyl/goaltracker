@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import dt 
 
 #needed: interface, table creation, table add row, table read row
 
@@ -28,7 +29,7 @@ def noninject(prompt):
 def addnewtable(c):
     tablename=noninject(raw_input("Please enter the name of the illness "))
     try:
-        c.execute('CREATE TABLE {tn} (date text,time text, rating real, other text)'.format(tn=tablename));
+        c.execute('CREATE TABLE {tn} (date text,time text, duration text,rating real, other text)'.format(tn=tablename));
         print "Now tracking", tablename+"."
         return
     except sqlite3.OperationalError:
@@ -39,9 +40,10 @@ def addnewtable(c):
 def addentries(tablename,c):
     e_date=raw_input('date of illness? ')
     e_time=raw_input('time of illness? ')
+    e_duration=raw_input('duration of illness')
     rating=int(raw_input('Rating of illness? 1-10 '))
     othernotes=noninject(raw_input('anything else to say? '))
-    newentry=[e_date,e_time,rating,othernotes]
+    newentry=[e_date,e_time,e_duration,rating,othernotes]
     print "You were sick at", e_date, e_time, "with an intensity of", rating, ". Also,", othernotes+"."
     c.execute("INSERT INTO {tn} VALUES(?,?,?,?)".format(tn=tablename),newentry)
 
