@@ -92,6 +92,8 @@ def addentries(tablename,c):
         except ValueError:
             print "Please clarify your input in days, hours, and/or mintues"
     rating=int(raw_input('Rating of illness? 1-10 '))
+    if rating<1 or rating>10:
+        rating=int(raw_input('Rating of illness? 1-10 '))
     othernotes=noninject(raw_input('anything else to say? '))
     newentry=[e_date,e_duration,rating,othernotes]
     print "You were sick at", e_date, "until", e_duration, "with an intensity of", rating, ". Also,", othernotes+"."
@@ -124,6 +126,8 @@ while(mode!='quit'):
     if mode=='write':
         c.execute("SELECT name from sqlite_master WHERE type='table'")
         illnesses=[x[0] for x in c.fetchmany(100)]
+        if len(illnesses)==0:
+            continue
         print "select an illness"
         for x in illnesses:
             print x
