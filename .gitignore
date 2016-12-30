@@ -1,3 +1,4 @@
 *.sqlite
 stash.txt
 issues.txt
+*.pyc

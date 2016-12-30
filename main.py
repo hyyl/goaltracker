@@ -1,5 +1,6 @@
 import sqlite3
 from createentry import addentries, noninject
+from querytable import dumptable
 
 #needed: interface, table creation, table add row, table read row
 
@@ -38,7 +39,7 @@ def addnewtable(c):
 
 def selecttable(c):
     c.execute("SELECT name from sqlite_master WHERE type='table'")
-    illnesses=[x[0] for x in c.fetchmany(100)]
+    illnesses=[x[0] for x in c.fetchall()]
     if len(illnesses)==0:
         return None
     print "select an illness"
@@ -52,8 +53,8 @@ def selecttable(c):
 
 dbFilename='illnessdb.sqlite'
 
-con= sqlite3.connect(dbFilename)
-c=con.cursor()
+conn= sqlite3.connect(dbFilename)
+c=conn.cursor()
 
 c.execute("SELECT name from sqlite_master WHERE type='table'")
 print "You are tracking these illnesses"
@@ -69,7 +70,9 @@ while(mode!='quit'):
     if mode=='query':
         pass
     if mode=='dump':
-        pass
+        tablename=selecttable(c)
+        if tablename!=None:
+            dumptable(tablename,conn)
     if mode=='write':
         tablename=selecttable(c)
         if tablename!=None:
@@ -77,5 +80,5 @@ while(mode!='quit'):
 
 
 
-con.commit()
-con.close()
+conn.commit()
+conn.close()
