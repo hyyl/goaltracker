@@ -16,8 +16,8 @@ def dumptable(tablename,conn):
     entries=r.fetchmany(100)
     avgdurhr=0
     count=0
-    print "|  begin                     | elapsed (hr) |rating"
-    #       |  Wed Dec 21 2016 at 17:39  |  Wed Dec 21 2016 at 20:39  |  3.0  |  no
+    print "|  start time                | elapsed (hr) |rating"
+    #      |  Thu Dec 29 2016 at 21:37  |        0.05  |  10.0
     for e in entries:
         elapsed=calcdurhr(e['time'],e['duration'])
         lenstr=9-len(str(elapsed))

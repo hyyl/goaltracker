@@ -5,8 +5,21 @@ from querytable import dumptable
 #needed: interface, table creation, table add row, table read row
 
 #interface to add entry, add table, view in table, dump table, quit
-def choosemode():
-    val=raw_input('Create new tracker (C), Log(L), View(V), or Print(P)? Or quit(Q).')
+def chooseinitmode():
+    val=raw_input('Create new tracker (C) or select an already existing tracker(S)? Or quit(Q).')
+    if len(val)>1:
+        val=val[0]
+    if val=='s' or val == 'S':
+        return 'select'
+    elif val=='c' or val=='C':
+        return 'create'
+    elif val=='q' or val=='Q':
+        return 'quit'
+    else:
+        chooseinitmode()
+
+def choosetablemode():
+    val=raw_input('Log(L), View(V), or Print(P)? Or quit(Q).')
     if len(val)>1:
         val=val[0]
     if val=='l' or val == 'L':
@@ -15,14 +28,10 @@ def choosemode():
         return 'query'
     elif val=='p' or val=='P':
         return 'dump'
-    elif val=='c' or val=='C':
-        return 'create'
     elif val=='q' or val=='Q':
         return 'quit'
     else:
-        choosemode()
-
-
+        choosetablemode()
 
 
 #CREATE: add a new table, checks for unique name. add the ability to exit
@@ -62,21 +71,23 @@ for x in c.fetchmany(100):
     print x[0]
 
 mode='noidea'
+tablemode='noidea'
 
 while(mode!='quit'):
-    mode=choosemode()
+    mode=chooseinitmode()
     if mode=='create':
         addnewtable(c)
-    if mode=='query':
-        pass
-    if mode=='dump':
+    if mode=='select':
         tablename=selecttable(c)
         if tablename!=None:
-            dumptable(tablename,conn)
-    if mode=='write':
-        tablename=selecttable(c)
-        if tablename!=None:
-            addentries(tablename,c)
+            while (tablemode!='quit'):
+                tablemode=choosetablemode()
+                if tablemode=='query':
+                    pass
+                if tablemode=='dump':
+                    dumptable(tablename,conn)
+                if tablemode=='write':
+                    addentries(tablename,c)
 
 
 

@@ -20,7 +20,7 @@ def getdate():
     except ValueError:
         print "datefailed"
     try:
-        print retval.strftime(DATE_FORMAT)
+        #print retval.strftime(DATE_FORMAT)
         return retval.strftime(DATE_FORMAT)
     except ValueError:
         print "Please clarify your input."
