@@ -32,7 +32,7 @@ def getduration(e_date,inpstring):
     length=len(durarr)
     e_date=datetime.strptime(e_date,"%a %b %d %Y at %H:%M")
     if length%2!=0 or length>6 or length==0: #strings that don't match won't work
-        return ValueError
+        return None
     else:
         if length==6:
             return e_date+relativedelta(days=+int(durarr[0]),hours=+int(durarr[2]),minutes=+int(durarr[4]))
@@ -58,8 +58,10 @@ def addentries(tablename,c):
     while True:
         try:
             e_duration_input=raw_input('duration of illness')
-            e_duration=getduration(e_date,e_duration_input).strftime(DATE_FORMAT)
-            break
+            e_duration=getduration(e_date,e_duration_input)
+            if e_duration!=None:
+                e_duration=e_duration.strftime(DATE_FORMAT)
+                break
         except ValueError:
             print "Please clarify your input in days, hours, and/or minutes"
     while True:
@@ -68,10 +70,10 @@ def addentries(tablename,c):
             if rating>=1 and rating <=10:
                 break
         except ValueError:
-            print "Please state your input as a number"
+            print "Please state your input as an integer"
 
-    othernotes=noninject(raw_input('anything else to say? '))
-    newentry=[e_date,e_duration,rating,othernotes]
-    print "You were sick at", e_date, "until", e_duration, "with an intensity of", rating, ". Also,", othernotes+"."
+    othernotes='nothing to  see here'#noninject(raw_input('anything else to say? '))
+    newentry=[e_date,e_duration,rating, othernotes]
+    print "You were sick at", e_date, "until", e_duration, "with an intensity of", rating, "." #Also,", othernotes+"."
 
     c.execute("INSERT INTO {tn} VALUES(?,?,?,?)".format(tn=tablename),newentry)

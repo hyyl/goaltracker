@@ -25,3 +25,6 @@ def dumptable(tablename,conn):
         avgdurhr+=elapsed
         count+=1
     print "average hours were " + str(avgdurhr/count)
+
+def dumpweek(tablename,conn):
+    print "Weeks"

@@ -19,7 +19,7 @@ def chooseinitmode():
         chooseinitmode()
 
 def choosetablemode():
-    val=raw_input('Log(L), View(V), or Print(P)? Or quit(Q).')
+    val=raw_input('Log(L), view some values(V), or dump all values(P)? Or quit(Q).')
     if len(val)>1:
         val=val[0]
     if val=='l' or val == 'L':
@@ -38,7 +38,7 @@ def choosetablemode():
 def addnewtable(c):
     tablename=noninject(raw_input("Please enter the name of the illness "))
     try:
-        c.execute('CREATE TABLE {tn} (time text, duration text,rating real, other text)'.format(tn=tablename));
+        c.execute('CREATE TABLE {tn} (time DATE, duration TEXT,rating INTEGER, other TEXT)'.format(tn=tablename));
         print "Now tracking", tablename+"."
         return
     except sqlite3.OperationalError:
