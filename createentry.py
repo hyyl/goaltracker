@@ -1,4 +1,4 @@
-
+from getdate import *
 from datetime import *
 from dateutil.parser import *
 from dateutil.relativedelta import *
@@ -9,22 +9,6 @@ import calendar
 #reduce SQL injection vulnerability
 def noninject(prompt):
     return ''.join(x for x in prompt if (x.isalnum or x==" " or x=='-' or x=="." or x==":") )
-
-
-
-def getdate():
-    NOW=datetime.now()
-    DATE_FORMAT="%Y-%m-%d %H:%M:%S"#"%a %b %d %Y at %H:%M"
-    try:
-        retval=parse(raw_input('date and time of illness? '), ignoretz=True, fuzzy=True, default=NOW)
-    except ValueError:
-        print "datefailed"
-    try:
-        print retval.strftime(DATE_FORMAT)
-        return retval.strftime(DATE_FORMAT)
-    except ValueError:
-        print "Please clarify your input."
-        getdate()
 
 def getduration(e_date,inpstring):
     regexstring='(days)+|(day)+|(d)+|(hours)+|(hour)+|(hr)+|(hrs)+|(h)+|(minutes)+|(minute)+|(mins)+|(min)+|(m)+'
@@ -53,12 +37,12 @@ def getduration(e_date,inpstring):
 
 #WRITE: add a new entry to a given table.
 def addentries(tablename,c):
-    e_date=getdate()
+    e_date=getdate('date and time of illness?')
     DATE_FORMAT="%Y-%m-%d %H:%M:%S"
 
     while True:
         try:
-            e_duration_input=raw_input('duration of illness')
+            e_duration_input=raw_input('duration of illness? ')
             e_duration=getduration(e_date,e_duration_input)
             if e_duration!=None:
                 e_duration=e_duration.strftime(DATE_FORMAT)

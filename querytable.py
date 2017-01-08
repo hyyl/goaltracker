@@ -1,6 +1,7 @@
 import sqlite3
 from datetime import *
 from dateutil.relativedelta import *
+from dateutil.parser import *
 
 def calcdurhr(begin,end):
     #print begin, end
@@ -10,7 +11,8 @@ def calcdurhr(begin,end):
     return t.days*24+t.hours+t.minutes/60.0
 
 
-def dumptable(tablename,conn):
+#all = all
+def dumptable(tablename,conn,mode):
     conn.row_factory=sqlite3.Row
     r=conn.cursor()
     r.execute('select * from {tn} ORDER BY time ASC, duration ASC'.format(tn=tablename))
@@ -29,5 +31,8 @@ def dumptable(tablename,conn):
     if count !=0:
         print "average hours were " + str(avgdurhr/count)
 
-def dumpweek(tablename,conn):
-    print "Weeks"
+def dumprange(tablename,conn):
+    print "retrieve entries in a range of dates/times"
+    beginrange=getdate("Beginning of range")
+    endrange=getdate("end of range")
+    print "beginning of range to end of range "
