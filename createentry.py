@@ -14,13 +14,13 @@ def noninject(prompt):
 
 def getdate():
     NOW=datetime.now()
-    DATE_FORMAT="%a %b %d %Y at %H:%M"
+    DATE_FORMAT="%Y-%m-%d %H:%M:%S"#"%a %b %d %Y at %H:%M"
     try:
         retval=parse(raw_input('date and time of illness? '), ignoretz=True, fuzzy=True, default=NOW)
     except ValueError:
         print "datefailed"
     try:
-        #print retval.strftime(DATE_FORMAT)
+        print retval.strftime(DATE_FORMAT)
         return retval.strftime(DATE_FORMAT)
     except ValueError:
         print "Please clarify your input."
@@ -30,7 +30,7 @@ def getduration(e_date,inpstring):
     regexstring='(days)+|(day)+|(d)+|(hours)+|(hour)+|(hr)+|(hrs)+|(h)+|(minutes)+|(minute)+|(mins)+|(min)+|(m)+'
     durarr=filter(None,re.split(regexstring,inpstring,flags=re.IGNORECASE))
     length=len(durarr)
-    e_date=datetime.strptime(e_date,"%a %b %d %Y at %H:%M")
+    e_date=datetime.strptime(e_date,"%Y-%m-%d %H:%M:%S")
     if length%2!=0 or length>6 or length==0: #strings that don't match won't work
         return None
     else:
@@ -54,7 +54,8 @@ def getduration(e_date,inpstring):
 #WRITE: add a new entry to a given table.
 def addentries(tablename,c):
     e_date=getdate()
-    DATE_FORMAT="%a %b %d %Y at %H:%M"
+    DATE_FORMAT="%Y-%m-%d %H:%M:%S"
+
     while True:
         try:
             e_duration_input=raw_input('duration of illness')

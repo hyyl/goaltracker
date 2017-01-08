@@ -38,7 +38,7 @@ def choosetablemode():
 def addnewtable(c):
     tablename=noninject(raw_input("Please enter the name of the illness "))
     try:
-        c.execute('CREATE TABLE {tn} (time DATE, duration TEXT,rating INTEGER, other TEXT)'.format(tn=tablename));
+        c.execute('CREATE TABLE {tn} (time TIMESTAMP, duration TIMESTAMP,rating INTEGER, other TEXT)'.format(tn=tablename));
         print "Now tracking", tablename+"."
         return
     except sqlite3.OperationalError:
@@ -62,7 +62,7 @@ def selecttable(c):
 
 dbFilename='illnessdb.sqlite'
 
-conn= sqlite3.connect(dbFilename)
+conn= sqlite3.connect(dbFilename,detect_types=sqlite3.PARSE_DECLTYPES)
 c=conn.cursor()
 
 c.execute("SELECT name from sqlite_master WHERE type='table'")
