@@ -6,9 +6,6 @@ import re
 import calendar
 
 
-#reduce SQL injection vulnerability
-def noninject(prompt):
-    return ''.join(x for x in prompt if (x.isalnum or x==" " or x=='-' or x=="." or x==":") )
 
 def getduration(e_date,inpstring):
     regexstring='(days)+|(day)+|(d)+|(hours)+|(hour)+|(hr)+|(hrs)+|(h)+|(minutes)+|(minute)+|(mins)+|(min)+|(m)+'
@@ -42,7 +39,7 @@ def addentries(tablename,c):
 
     while True:
         try:
-            e_duration_input=raw_input('duration of illness? ')
+            e_duration_input=noninject(raw_input('duration of illness? '))
             e_duration=getduration(e_date,e_duration_input)
             if e_duration!=None:
                 e_duration=e_duration.strftime(DATE_FORMAT)
