@@ -2,6 +2,7 @@ import sqlite3
 from datetime import *
 from dateutil.relativedelta import *
 from dateutil.parser import *
+from getdate import *
 
 def calcdurhr(begin,end):
     #print begin, end
@@ -15,11 +16,19 @@ def calcdurhr(begin,end):
 def dumptable(tablename,conn,mode):
     conn.row_factory=sqlite3.Row
     r=conn.cursor()
-    r.execute('select * from {tn} ORDER BY time ASC, duration ASC'.format(tn=tablename))
+    if mode=='all':
+        r.execute('select * from {tn} ORDER BY time ASC, duration ASC'.format(tn=tablename))
+    if mode=='range':
+        beginrange=getdate("Beginning of range")
+        endrange=getdate("end of range")
+        r.execute('select * from {tn} WHERE time BETWEEN ? AND ? ORDER BY time ASC, duration ASC'.format(tn=tablename),(beginrange,endrange,))
     entries=r.fetchall()
     avgdurhr=0
     count=0
-    print "    Complete Log for", tablename
+    if mode=='all':
+        print "    Complete Log for", tablename
+    if mode=='range':
+        print "    Log for", tablename, "between", beginrange, endrange
     print "|  start time                | elapsed (hr) |rating"
     #      |  Thu Dec 29 2016 at 21:37  |        0.05  |  10
     for e in entries:
@@ -30,9 +39,3 @@ def dumptable(tablename,conn,mode):
         count+=1
     if count !=0:
         print "average hours were " + str(avgdurhr/count)
-
-def dumprange(tablename,conn):
-    print "retrieve entries in a range of dates/times"
-    beginrange=getdate("Beginning of range")
-    endrange=getdate("end of range")
-    print "beginning of range to end of range "

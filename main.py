@@ -83,9 +83,9 @@ while(mode!='quit'):
             while (tablemode!='quit'):
                 tablemode=choosetablemode()
                 if tablemode=='query':
-                    pass
+                    dumptable(tablename,conn,'range')
                 if tablemode=='dump':
-                    dumptable(tablename,conn)
+                    dumptable(tablename,conn,'all')
                 if tablemode=='write':
                     addentries(tablename,c)
 
