@@ -39,7 +39,7 @@ def choosetablemode():
 
 #CREATE: add a new table, checks for unique name. add the ability to exit
 def addnewtable(c):
-    tablename=noninject(raw_input("Please enter the name of the illness "))
+    tablename=noninject(raw_input("Please enter the name of the goal "))
     try:
         c.execute('CREATE TABLE {tn} (time TIMESTAMP, duration TIMESTAMP,rating INTEGER, other TEXT)'.format(tn=tablename));
         print "Now tracking", tablename+"."
@@ -51,14 +51,14 @@ def addnewtable(c):
 
 def selecttable(c):
     c.execute("SELECT name from sqlite_master WHERE type='table'")
-    illnesses=[x[0] for x in c.fetchall()]
-    if len(illnesses)==0:
+    goals=[x[0] for x in c.fetchall()]
+    if len(goals)==0:
         return None
-    print "select an illness"
-    for x in illnesses:
+    print "select an goal"
+    for x in goals:
         print x
     tablename='totallyhealthymate'
-    while tablename not in illnesses:
+    while tablename not in goals:
         tablename=raw_input("select a tracker ")
     return tablename
 
@@ -69,7 +69,7 @@ conn= sqlite3.connect(dbFilename,detect_types=sqlite3.PARSE_DECLTYPES)
 c=conn.cursor()
 
 c.execute("SELECT name from sqlite_master WHERE type='table'")
-print "You are tracking these illnesses"
+print "You are tracking these goals"
 for x in c.fetchmany(100):
     print x[0]
 

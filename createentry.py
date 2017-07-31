@@ -34,12 +34,12 @@ def getduration(e_date,inpstring):
 
 #WRITE: add a new entry to a given table.
 def addentries(tablename,c):
-    e_date=getdate('date and time of illness?')
+    e_date=getdate('date and time of progress?')
     DATE_FORMAT="%Y-%m-%d %H:%M:%S"
 
     while True:
         try:
-            e_duration_input=noninject(raw_input('duration of illness? '))
+            e_duration_input=noninject(raw_input('duration of progress? '))
             e_duration=getduration(e_date,e_duration_input)
             if e_duration!=None:
                 e_duration=e_duration.strftime(DATE_FORMAT)
@@ -48,7 +48,7 @@ def addentries(tablename,c):
             print "Please clarify your input in days, hours, and/or minutes"
     while True:
         try:
-            rating=int(raw_input('Rating of illness? 1-10 '))
+            rating=int(raw_input('Rating of productivity? 1-10 '))
             if rating>=1 and rating <=10:
                 break
         except ValueError:
@@ -56,6 +56,6 @@ def addentries(tablename,c):
 
     othernotes='nothing to  see here'#noninject(raw_input('anything else to say? '))
     newentry=[e_date,e_duration,rating, othernotes]
-    print "You were sick at", e_date, "until", e_duration, "with an intensity of", rating, "." #Also,", othernotes+"."
+    print "You made progress at", e_date, "until", e_duration, "with an intensity of", rating, "." #Also,", othernotes+"."
 
     c.execute("INSERT INTO {tn} VALUES(?,?,?,?)".format(tn=tablename),newentry)
